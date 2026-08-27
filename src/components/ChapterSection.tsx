@@ -1,27 +1,33 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useReveal } from '../hooks/useReveal';
 import type { Chapter } from '../data';
+import PhotoImage from './PhotoImage';
 
 function PhotoPlaceholder({ chapterNum, photoIndex }: { chapterNum: string; photoIndex: number }) {
+  const slot = `chapter-${chapterNum}-${photoIndex}`;
   return (
-    <div className="photo-ph absolute inset-0">
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10">
-        <svg
-          className="w-8 h-8 opacity-15 text-gold"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1"
-          viewBox="0 0 24 24"
-        >
-          <rect x="3" y="3" width="18" height="18" rx="1" />
-          <circle cx="8.5" cy="8.5" r="1.5" />
-          <polyline points="21 15 16 10 5 21" />
-        </svg>
-        <p className="text-xs font-mono tracking-[0.2em] text-ivory opacity-15">
-          CH.{chapterNum} · {String(photoIndex + 1).padStart(2, '0')}
-        </p>
-      </div>
-    </div>
+    <PhotoImage
+      slot={slot}
+      className="photo-ph absolute inset-0"
+      fallback={
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10">
+          <svg
+            className="w-8 h-8 opacity-15 text-gold"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+            viewBox="0 0 24 24"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="1" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <polyline points="21 15 16 10 5 21" />
+          </svg>
+          <p className="text-xs font-mono tracking-[0.2em] text-ivory opacity-15">
+            CH.{chapterNum} · {String(photoIndex + 1).padStart(2, '0')}
+          </p>
+        </div>
+      }
+    />
   );
 }
 

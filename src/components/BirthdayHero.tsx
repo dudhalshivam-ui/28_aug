@@ -1,4 +1,5 @@
 import { useReveal } from '../hooks/useReveal';
+import PhotoImage from './PhotoImage';
 
 export default function BirthdayHero() {
   const textRef = useReveal<HTMLDivElement>();
@@ -57,24 +58,28 @@ export default function BirthdayHero() {
           className="reveal reveal-d2 flex justify-center md:justify-end order-1 md:order-2"
         >
           <div className="relative w-full max-w-[280px] md:max-w-[340px]">
-            <div className="photo-ph w-full aspect-[3/4]">
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10">
-                <svg
-                  className="w-8 h-8 opacity-15 text-gold"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1"
-                  viewBox="0 0 24 24"
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="1" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <polyline points="21 15 16 10 5 21" />
-                </svg>
-                <p className="text-xs font-mono tracking-[0.2em] text-ivory opacity-15">
-                  HERO PHOTO
-                </p>
-              </div>
-            </div>
+            <PhotoImage
+              slot="hero"
+              className="photo-ph w-full aspect-[3/4]"
+              fallback={
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10">
+                  <svg
+                    className="w-8 h-8 opacity-15 text-gold"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    viewBox="0 0 24 24"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" />
+                  </svg>
+                  <p className="text-xs font-mono tracking-[0.2em] text-ivory opacity-15">
+                    HERO PHOTO
+                  </p>
+                </div>
+              }
+            />
             <p className="mt-3 text-xs text-ivory/30 italic text-center tracking-wide">
               Add your favorite photograph here
             </p>

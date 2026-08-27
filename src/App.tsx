@@ -8,6 +8,8 @@ import MemoriesGallery from './components/MemoriesGallery';
 import LoveLetter from './components/LoveLetter';
 import FinalSection from './components/FinalSection';
 import Navigation from './components/Navigation';
+import PhotoManager from './components/PhotoManager';
+import { PhotosProvider } from './lib/PhotosContext';
 import { chapters } from './data';
 
 const SECTION_IDS = ['home', 'journey', 'letter', 'memories', 'final'];
@@ -16,6 +18,7 @@ export default function App() {
   const [opened, setOpened] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [currentChapter, setCurrentChapter] = useState(0);
+  const [managerOpen, setManagerOpen] = useState(false);
 
   // Lock scroll until opened
   useEffect(() => {
@@ -59,7 +62,8 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative">
+    <PhotosProvider>
+      <div className="relative">
       {/* Subtle grain overlay */}
       <div
         className="fixed inset-0 pointer-events-none z-[9998] opacity-[0.018]"
@@ -141,6 +145,25 @@ export default function App() {
         {/* Mobile bottom padding */}
         <div className="md:hidden h-8" />
       </main>
+
+      {/* Photo manager button — visible after opening */}
+      {opened && (
+        <button
+          onClick={() => setManagerOpen(true)}
+          className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-40 glass border border-gold/22 w-10 h-10 flex items-center justify-center text-ivory/50 hover:text-ivory hover:border-gold/45 transition-all duration-300"
+          aria-label="Manage photos"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+        </button>
+      )}
+
+      {/* Photo manager overlay */}
+      <PhotoManager open={managerOpen} onClose={() => setManagerOpen(false)} />
     </div>
+    </PhotosProvider>
   );
 }

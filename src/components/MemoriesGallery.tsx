@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useReveal } from '../hooks/useReveal';
 import { galleryPhotos } from '../data';
 import type { GalleryCategory, GalleryPhoto } from '../data';
+import PhotoImage from './PhotoImage';
 
 const CATEGORIES: { id: GalleryCategory; label: string }[] = [
   { id: 'all', label: 'ALL' },
@@ -13,28 +14,35 @@ const CATEGORIES: { id: GalleryCategory; label: string }[] = [
 
 function PhotoCard({ photo, onClick }: { photo: GalleryPhoto; onClick: () => void }) {
   const rowSpan = photo.size === 'lg' ? 'row-span-2' : '';
+  const slot = `gallery-${photo.id}`;
 
   return (
     <div
       className={`relative photo-ph cursor-pointer group overflow-hidden ${rowSpan}`}
       onClick={onClick}
     >
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10">
-        <svg
-          className="w-5 h-5 opacity-12 text-gold"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1"
-          viewBox="0 0 24 24"
-        >
-          <rect x="3" y="3" width="18" height="18" rx="1" />
-          <circle cx="8.5" cy="8.5" r="1.5" />
-          <polyline points="21 15 16 10 5 21" />
-        </svg>
-        <p className="text-xs font-mono tracking-[0.12em] text-ivory opacity-12">
-          {String(photo.id).padStart(2, '0')}
-        </p>
-      </div>
+      <PhotoImage
+        slot={slot}
+        className="absolute inset-0"
+        fallback={
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10">
+            <svg
+              className="w-5 h-5 opacity-12 text-gold"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              viewBox="0 0 24 24"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="1" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
+            <p className="text-xs font-mono tracking-[0.12em] text-ivory opacity-12">
+              {String(photo.id).padStart(2, '0')}
+            </p>
+          </div>
+        }
+      />
       {/* Hover overlay */}
       <div className="absolute inset-0 bg-burgundy/25 opacity-0 group-hover:opacity-100 transition-opacity duration-400 z-20 flex items-end p-3">
         {photo.caption && (
@@ -95,28 +103,30 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }: LightboxProps) {
 
         {/* Photo */}
         <div className="max-w-2xl max-h-full w-full flex flex-col gap-4">
-          <div
+          <PhotoImage
+            slot={`gallery-${photo.id}`}
             className={`photo-ph w-full anim-fade-scale ${
               photo.size === 'lg' ? 'aspect-[3/4]' : 'aspect-square'
             }`}
-          >
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10">
-              <svg
-                className="w-10 h-10 opacity-12 text-gold"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1"
-                viewBox="0 0 24 24"
-              >
-                <rect x="3" y="3" width="18" height="18" rx="1" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <polyline points="21 15 16 10 5 21" />
-              </svg>
-              <p className="text-xs font-mono tracking-[0.2em] text-ivory opacity-12">
-                PHOTO {String(photo.id).padStart(2, '0')}
-              </p>
-            </div>
-          </div>
+            fallback={
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10">
+                <svg
+                  className="w-10 h-10 opacity-12 text-gold"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  viewBox="0 0 24 24"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="1" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
+                </svg>
+                <p className="text-xs font-mono tracking-[0.2em] text-ivory opacity-12">
+                  PHOTO {String(photo.id).padStart(2, '0')}
+                </p>
+              </div>
+            }
+          />
           {photo.caption && (
             <p className="text-center text-sm text-ivory/42 italic">{photo.caption}</p>
           )}
