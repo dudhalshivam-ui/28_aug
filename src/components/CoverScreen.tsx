@@ -1,5 +1,3 @@
-import PhotoImage from './PhotoImage';
-
 interface Props {
   opened: boolean;
   onOpen: () => void;
@@ -42,30 +40,15 @@ export default function CoverScreen({ opened, onOpen }: Props) {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-20 bg-gradient-to-b from-transparent to-gold opacity-25" />
 
       <div className="flex flex-col items-center gap-7 px-8 text-center max-w-xs mx-auto">
-        {/* Portrait photo placeholder */}
+        {/* Portrait photo */}
         <div className="relative">
-          <PhotoImage
-            slot="cover"
-            className="w-44 h-60 md:w-52 md:h-72 photo-ph anim-pulse-ring"
-            fallback={
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10">
-                <svg
-                  className="w-7 h-7 opacity-20 text-gold"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1"
-                  viewBox="0 0 24 24"
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="1" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <polyline points="21 15 16 10 5 21" />
-                </svg>
-                <p className="text-xs font-mono tracking-[0.2em] text-ivory opacity-15">
-                  YOUR PHOTO
-                </p>
-              </div>
-            }
-          />
+          <div className="w-44 h-60 md:w-52 md:h-72 photo-ph anim-pulse-ring overflow-hidden">
+            <img
+              src="/image.png"
+              alt="Portrait"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
           <div className="absolute -inset-px border border-gold opacity-15" />
           <div className="absolute -inset-3 border border-gold opacity-6" />
         </div>
